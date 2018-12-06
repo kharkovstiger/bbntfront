@@ -1,0 +1,11 @@
+img{
+  height: 10em;
+  border: 2px solid black;
+  margin: 1em;
+}
+
+#flags{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}

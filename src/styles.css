@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+mat-form-field{
+  margin: 5px;
+}
+
+.auth-form{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 30vh;
+}
+
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+mat-sidenav-container{
+  min-height: 93vh;
+}
+
+mat-sidenav{
+  min-width: 12vw;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
