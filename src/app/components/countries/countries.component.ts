@@ -8,7 +8,7 @@ import {Component} from '@angular/core';
 
 export class CountriesComponent {
 
-  private countries: string[] = [];
+  countries: string[] = [];
 
   constructor(private countriesService: CountriesService){}
 

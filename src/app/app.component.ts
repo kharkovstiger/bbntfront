@@ -7,8 +7,8 @@ import {AuthenticationService, CountriesService} from './_services';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  private currentUser: User;
-  private currentCountry: string;
+  currentUser: User;
+  currentCountry: string;
   private login: string;
   private code: string;
 
