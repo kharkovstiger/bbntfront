@@ -28,4 +28,8 @@ export class CountriesService {
         this.router.navigate(['main']);
       });
   }
+
+  resetCurrentCountry() {
+    this.currentCountrySubject.next(null);
+  }
 }

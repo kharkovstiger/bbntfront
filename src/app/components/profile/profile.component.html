@@ -1,0 +1,42 @@
+<div class="profile form">
+  <mat-form-field>
+    <input matInput name="alias" [(ngModel)]="currentUser.alias" placeholder="Alias" disabled>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput name="team" [(ngModel)]="currentUser.team" placeholder="Team" disabled>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput name="country" [(ngModel)]="currentUser.country" placeholder="Country" disabled>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput name="phone" [(ngModel)]="currentUser.phone" placeholder="Phone number">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput name="e-mail" [(ngModel)]="currentUser.email" placeholder="E-mail">
+  </mat-form-field>
+  <mat-form-field *ngIf="currentUser.roleCountry!=null">
+    <input matInput name="NT" [(ngModel)]="ntRoleName" placeholder="NT" disabled>
+  </mat-form-field>
+  <button mat-button color="primary" (click)="save()">Save changes</button>
+</div>
+
+<div *ngIf="currentUser.roleCountry==null">
+  <p>Are you NT manager? if so, please, fill this form press OK and we will check it. if there is no the you are manager
+    of,
+    please, write to the developer. You can find an e-mail in the contacts</p>
+  <label>U21?<mat-checkbox [(ngModel)]="u21" labelPosition="before">U21</mat-checkbox></label>
+  <br>
+  <mat-form-field>
+    <mat-select [(ngModel)]="country">
+      <mat-option *ngFor="let c of countries" [value]="c">
+        {{country}}
+        <img src="../../../assets/flags.mini/{{c}}.png" alt="{{c}}">
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-button color="primary" (click)="add()">OK</button>
+</div>
+<!--<div *ngIf="currentUser.roleCountry!=null">-->
+<!--<p>Are you already not NT manager? Please, click this button</p>-->
+<!--<button mat-button color="primary" (click)="delete()">I am not NT manager</button>-->
+<!--</div>-->

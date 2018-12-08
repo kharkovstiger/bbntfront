@@ -1,3 +1,6 @@
 export * from './authentication.service'
 export * from './countries.service'
 export * from './main.service'
+export * from './user.service'
+export * from './http.service'
+export * from './player.service'

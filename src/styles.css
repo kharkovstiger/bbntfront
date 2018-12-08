@@ -1,15 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@import url( 'https://fonts.googleapis.com/css?family=Roboto:400,700|Material+Icons');
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 mat-form-field{
   margin: 5px;
 }
 
-.auth-form{
+.form, .form{
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.auth{
   margin-top: 30vh;
+}
+
+.profile{
+  flex-direction: column;
 }
 
 .example-container {
@@ -26,8 +34,26 @@ mat-sidenav-container{
 
 mat-sidenav{
   min-width: 12vw;
+  position: sticky;
+  position: -webkit-sticky;
+  z-index: 1000;
 }
 
 .spacer {
   flex: 1 1 auto;
+}
+
+span{
+  color: white;
+}
+
+mat-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000;
+}
+
+table {
+  width: 100%;
 }

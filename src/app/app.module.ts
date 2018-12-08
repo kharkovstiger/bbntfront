@@ -5,14 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {HttpClientModule} from '@angular/common/http';
-import {HomeComponent, CountriesComponent, MainComponent, LeftComponent, RightComponent} from './components';
+import {HomeComponent, CountriesComponent, MainComponent, PlayersComponent} from './components';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {MatFormFieldModule, MatInputModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {
+  MatCheckboxModule,
+  MatFormFieldModule, MatIconModule,
+  MatInputModule, MatListModule, MatOptionModule, MatPaginatorModule, MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule, MatSortModule, MatTableModule,
+  MatToolbarModule
+} from '@angular/material';
 import {FormsModule} from '@angular/forms';
+import {ProfileComponent} from "./components/profile";
 
 @NgModule({
   declarations: [
-    AppComponent, CountriesComponent, HomeComponent, MainComponent, LeftComponent, RightComponent
+    AppComponent, CountriesComponent, HomeComponent, MainComponent, ProfileComponent, PlayersComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +29,13 @@ import {FormsModule} from '@angular/forms';
     BrowserAnimationsModule, NoopAnimationsModule,
     MatFormFieldModule, MatInputModule,
     FormsModule,
-    MatSidenavModule, MatToolbarModule
+    MatSidenavModule, MatToolbarModule, MatListModule,
+    MatSelectModule, MatOptionModule,
+    MatCheckboxModule,
+    MatTableModule, MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

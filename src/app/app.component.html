@@ -1,32 +1,36 @@
-<!-- nav -->
-<!--<nav class="navbar navbar-expand navbar-dark bg-dark" >-->
-
-  <!--<div class="navbar-nav" *ngIf="currentUser!=null">-->
-    <!--<a class="nav-item nav-link" routerLink="">Home</a>-->
-    <!--<a class="nav-item nav-link" (click)="logout()">Logout</a>-->
-  <!--</div>-->
-
-<!--</nav>-->
-
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-      <span class="nav-item nav-link" *ngIf="currentUser!=null">Welcome, {{currentUser.alias}}!</span>
-      <span class="spacer"></span>
-      <span class="nav-item nav-link" *ngIf="currentUser!=null" routerLink="">Home</span>
-      <span class="nav-item nav-link" *ngIf="currentUser!=null" routerLink="">Profile</span>
-      <span class="spacer"></span>
-    <!--TODO flag is select to change country-->
-      <img *ngIf="currentCountry!=null" src="../../../assets/flags.mini/{{currentCountry}}.png" alt="{{currentCountry}}">
-      <span class="nav-item nav-link" *ngIf="currentUser!=null" (click)="logout()">Logout</span>
+    <span class="nav-item nav-link" *ngIf="currentUser!=null">Welcome, {{currentUser.alias}}!</span>
+    <span class="spacer"></span>
+    <span class="nav-item nav-link" *ngIf="currentUser!=null" routerLink="">Home</span>
+    <span class="nav-item nav-link" *ngIf="currentUser!=null" routerLink="profile">Profile</span>
+    <span class="spacer"></span>
+    <mat-form-field *ngIf="currentCountry!=null">
+      <mat-select [(ngModel)]="currentCountry">
+        <mat-option *ngFor="let country of countries" [value]="country" (click)="chooseCountry()">
+          {{country}}
+          <img  src="../../../assets/flags.mini/{{country}}.png" alt="{{country}}">
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="nav-item nav-link" *ngIf="currentUser!=null" (click)="logout()">Logout</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="example-container">
   <mat-sidenav opened mode="side" class="bg-dark">
-    <span>Add a player</span>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="['players', 'my']"><span>Add a player</span></a>
+      <a mat-list-item *ngIf="currentUser!=null && currentUser.roleCountry!=null" [routerLink]="['players', 'nt']">
+        <span>See database</span>
+      </a>
+      <a mat-list-item *ngIf="currentUser!=null && currentUser.roleCountry!=null"><span>Add players</span></a>
+    </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav opened mode="side" class="bg-dark" position="end">Chats with NT managers</mat-sidenav>
-  <div class="auth-form" *ngIf="currentUser==null">
+  <mat-sidenav opened mode="side" class="bg-dark" position="end">
+    <span>Chats with NT managers</span>
+  </mat-sidenav>
+  <div class="auth form" *ngIf="currentUser==null">
     <mat-form-field>
       <input matInput name="login" [(ngModel)]="login" placeholder="Enter your BB login" required>
     </mat-form-field>
@@ -37,14 +41,14 @@
   </div>
   <router-outlet></router-outlet>
 </mat-sidenav-container>
- <!--main app container-->
+<!--main app container-->
 <!--<div class="jumbotron">-->
-  <!--<div class="container">-->
-    <!--<div class="row">-->
-      <!--<div class="col-sm-6 offset-sm-3">-->
-        <!--&lt;!&ndash;<alert></alert>&ndash;&gt;-->
-        <!--<router-outlet></router-outlet>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--<div class="col-sm-6 offset-sm-3">-->
+<!--&lt;!&ndash;<alert></alert>&ndash;&gt;-->
+<!--<router-outlet></router-outlet>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->

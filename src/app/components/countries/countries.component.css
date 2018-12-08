@@ -4,7 +4,7 @@ img{
   margin: 1em;
 }
 
-#flags{
+#flags, p{
   align-items: center;
   display: flex;
   justify-content: center;

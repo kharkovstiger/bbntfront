@@ -1,0 +1,52 @@
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="example-table-container">
+    <table mat-table [dataSource]="players" class="example-table" matSort multiTemplateDataRows>
+
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsForDisplay">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getColumnName(column)}} </th>
+        <!--<td mat-cell *matCellDef="let element"> {{element[column]}} </td>-->
+        <td mat-cell *matCellDef="let element"> {{getColumnValue(element, column)}} </td>
+      </ng-container>
+
+      <!-- add Column -->
+      <ng-container matColumnDef="add" sticky>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="accent"
+                                                        (click)="add(element.id)">{{element.inDB ? "Update" : "Add"}}</button></td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div>Last 10 ups:</div>
+            <div *ngFor="let up of element.lastUps | keyvalue">
+              {{up.key}} : <span *ngFor="let val of up.value">{{val}}</span>
+            </div>
+            <div>bio: {{element.bio}}</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50, 100]"
+                 showFirstLastButtons></mat-paginator>
+
+</div>
