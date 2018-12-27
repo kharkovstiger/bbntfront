@@ -11,9 +11,8 @@ export class PlayerService {
 
   constructor(private http: HttpService, private router: Router){}
 
-  getTeamPlayers(){
-    // return this.http.get<Player[]>(Config.baseUrl + this.url + '/playersForCurrentCountry', true);
-    return this.http.get<Player[]>(Config.baseUrl + this.url + '/players', true);
+  getTeamPlayers(country: string){
+    return this.http.get<Player[]>(Config.baseUrl + this.url + '/playersForCurrentCountry?country=' + country, true);
   }
 
   addPlayer(playerId: string) {
@@ -22,5 +21,13 @@ export class PlayerService {
 
   getNTPlayers() {
     return this.http.get<Player[]>(Config.baseUrl + this.url + '/get', true);
+  }
+
+  updateNTSquad() {
+    this.http.get(Config.baseUrl + this.url + '/updateNT', true);
+  }
+
+  addBio(bio: string, id: string) {
+    this.http.put(Config.baseUrl + this.url + '/addBio/' + id, {bio}, true);
   }
 }

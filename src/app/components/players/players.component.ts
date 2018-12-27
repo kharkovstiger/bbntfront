@@ -1,8 +1,8 @@
-import {ChangeDetectorRef, Component, SimpleChanges, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, Inject, SimpleChanges, ViewChild} from '@angular/core';
 import {Player, Skill} from "../../_models";
-import {PlayerService} from "../../_services";
+import {CountriesService, PlayerService} from '../../_services';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {merge, Observable, Subscription} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -31,12 +31,14 @@ export class PlayersComponent {
     'jumpShot', 'range', 'outsideDef', 'handling', 'driving', 'passing', 'insideShot', 'insideDef', 'rebound', 'block',
     'stamina', 'freeThrow', 'experience',  'lastUpdate'];
   private readonly navigationSubscription: Subscription;
+  private currentCountry: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private playerService: PlayerService, private route: ActivatedRoute,
-              private changeDetectorRefs: ChangeDetectorRef, private router: Router) {
+  constructor(private playerService: PlayerService, private route: ActivatedRoute, public dialog: MatDialog,
+              private changeDetectorRefs: ChangeDetectorRef, private router: Router, private countryService:CountriesService) {
+    this.countryService.currentCountry.subscribe(x => this.currentCountry = x);
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -57,12 +59,17 @@ export class PlayersComponent {
       this.columnsForDisplay = this.columnsForMyPlayers;
       this.columnsForDisplay.forEach(c => this.displayedColumns.push(c));
       this.displayedColumns.push('add');
-      return this.playerService.getTeamPlayers();
+      return this.playerService.getTeamPlayers(this.currentCountry);
     }
     if (type == 'nt'){
       this.columnsForDisplay = this.columnsForNTPlayers;
       this.columnsForDisplay.forEach(c => this.displayedColumns.push(c));
       return this.playerService.getNTPlayers();
+    }
+    if (type == 'bulk'){
+      this.columnsForDisplay = this.columnsForNTPlayers;
+      this.columnsForDisplay.forEach(c => this.displayedColumns.push(c));
+      return new Observable<Player[]>();
     }
   }
 
@@ -151,4 +158,44 @@ export class PlayersComponent {
       default: return column;
     }
   }
+
+  getBBPlayerLink(element: Player) {
+    return 'http://www.buzzerbeater.com/player/' + element.id + '/overview.aspx';
+  }
+
+  openBio() {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '250px',
+      data: {
+        bio: this.expandedElement.bio,
+        name: this.expandedElement.firstName + ' ' + this.expandedElement.lastName
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.expandedElement.bio = result;
+      this.playerService.addBio(result, this.expandedElement.id);
+    });
+  }
+}
+
+interface DialogData {
+  bio: string;
+  name: string;
+}
+
+@Component({
+  selector: 'bio-dialog',
+  templateUrl: 'bio.dialog.html'
+})
+export class DialogOverviewExampleDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

@@ -5,10 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {HttpClientModule} from '@angular/common/http';
-import {HomeComponent, CountriesComponent, MainComponent, PlayersComponent} from './components';
+import {HomeComponent, CountriesComponent, MainComponent, PlayersComponent, DialogOverviewExampleDialog, ChatComponent} from './components';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatCheckboxModule,
+  MatCheckboxModule, MatDialogModule,
   MatFormFieldModule, MatIconModule,
   MatInputModule, MatListModule, MatOptionModule, MatPaginatorModule, MatProgressSpinnerModule,
   MatSelectModule,
@@ -20,7 +20,8 @@ import {ProfileComponent} from "./components/profile";
 
 @NgModule({
   declarations: [
-    AppComponent, CountriesComponent, HomeComponent, MainComponent, ProfileComponent, PlayersComponent
+    AppComponent, CountriesComponent, HomeComponent, MainComponent, ProfileComponent, PlayersComponent, DialogOverviewExampleDialog,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +36,13 @@ import {ProfileComponent} from "./components/profile";
     MatTableModule, MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSortModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, DialogOverviewExampleDialog],
+  entryComponents: [
+    DialogOverviewExampleDialog
+  ]
 })
 export class AppModule { }

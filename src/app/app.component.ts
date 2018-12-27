@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {User} from './_models';
-import {AuthenticationService, CountriesService} from './_services';
+import {AuthenticationService, CountriesService, PlayerService} from './_services';
 
 @Component({
   selector: 'app',
@@ -13,7 +13,8 @@ export class AppComponent {
   private login: string;
   private code: string;
 
-  constructor(private authenticationService: AuthenticationService, private countryService: CountriesService) {
+  constructor(private authenticationService: AuthenticationService, private countryService: CountriesService,
+              private playerService: PlayerService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.countryService.currentCountry.subscribe(x => this.currentCountry = x);
     this.countryService.getCounties().subscribe(c => this.countries=c);
@@ -30,5 +31,9 @@ export class AppComponent {
 
   chooseCountry(){
     this.countryService.chooseCountry(this.currentCountry);
+  }
+
+  updateNTSquad(){
+    this.playerService.updateNTSquad();
   }
 }
