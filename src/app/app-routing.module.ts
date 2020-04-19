@@ -4,7 +4,7 @@ import {HomeComponent, CountriesComponent, MainComponent, PlayersComponent} from
 import {ProfileComponent} from "./components/profile";
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', component: MainComponent},
   {path: 'countries', component: CountriesComponent},
   {path: 'main', component: MainComponent},
   {path: 'profile', component: ProfileComponent},

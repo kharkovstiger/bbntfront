@@ -1,3 +1,8 @@
+<div *ngIf="type=='bulk'" class='loadExcelInput'>
+  <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+  <button type="button" class="btn" (click)="Upload()" >Upload</button>
+</div>
+
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
@@ -40,6 +45,13 @@
             </div>
             <div>bio: {{element.bio}}</div><button mat-raised-button color="accent"
                                                    (click)="openBio()">{{element.bio ? "Update" : "Add"}}</button>
+            <br>
+            <div class="text-skill-container">
+              <div *ngFor="let skill of skillOrder; let odd=odd" class="text-skill">
+                {{skill}}: <span [style.color]="skillNames[element.skills[skill]][1]">{{skillNames[element.skills[skill]][0]}}</span>
+                <br *ngIf="odd">
+              </div>
+            </div>
           </div>
         </td>
       </ng-container>
@@ -48,7 +60,7 @@
       <tr mat-row *matRowDef="let element; columns: displayedColumns;"
           class="example-element-row"
           [class.example-expanded-row]="expandedElement === element"
-          (click)="expandedElement = expandedElement === element ? null : element"></tr>
+          (click)="expandedElement = type=='my' ? null : expandedElement === element ? null : element"></tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
   </div>

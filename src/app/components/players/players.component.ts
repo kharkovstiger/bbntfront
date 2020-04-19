@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatPaginator, MatSort, MatTabl
 import {merge, Observable, Subscription} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import * as XLSX from 'ts-xlsx';
 
 @Component({
   templateUrl: 'players.component.html',
@@ -20,6 +21,12 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 export class PlayersComponent {
 
+  arrayBuffer:any;
+  file:File;
+  incomingfile(event)
+  {
+    this.file= event.target.files[0];
+  }
   players: MatTableDataSource<Player>;
   displayedColumns: string[];
   columnsForDisplay: string[];
@@ -32,6 +39,36 @@ export class PlayersComponent {
     'stamina', 'freeThrow', 'experience',  'lastUpdate'];
   private readonly navigationSubscription: Subscription;
   private currentCountry: string;
+  skillOrder: string[] = ['jumpShot', 'range', 'outsideDef', 'handling', 'driving', 'passing', 'insideShot', 'insideDef', 'rebound', 'block',
+    'stamina', 'freeThrow', 'experience'];
+  skillNames: {[key: string]: string[]} = {
+    1:["atrocious", "#000000"],
+    2:["pitiful", "#121263"],
+    3:["awful", "#221385"],
+    4:["inept", "#30139F"],
+    5:["mediocre", "#700BA2"],
+    6:["average", "#910B9D"],
+    7:["respectable", "#AD0B88"],
+    8:["strong", "#B70B5A"],
+    9:["proficient", "#9C0B32"],
+    10:["prominent", "#A70B00"],
+    11:["prolific", "#BD2600"],
+    12:["sensational", "#CB3100"],
+    13:["tremendous", "#D93C00"],
+    14:["wondrous", "#DB6E04"],
+    15:["marvelous", "#E5A64B"],
+    16:["prodigious", "#AC860A"],
+    17:["stupendous", "#8E9800"],
+    18:["phenomenal", "#498E00"],
+    19:["colossal", "#0EAE28"],
+    20:["legendary", "#0EB366"],
+    21:["legendary", "#0EB366"],
+    22:["legendary", "#0EB366"],
+    23:["legendary", "#0EB366"],
+    24:["legendary", "#0EB366"],
+    25:["legendary", "#0EB366"]
+  };
+  type: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,29 +84,25 @@ export class PlayersComponent {
     });
   }
 
-  ngOnInit() {
-    // this.initTable();
-  }
-
   getPlayers(): Observable<Player[]> {
-    let type: string = '';
-    this.route.params.subscribe(p => type = p.type);
+    this.route.params.subscribe(p => this.type = p.type);
     this.displayedColumns = [];
-    if (type == 'my') {
+    if (this.type == 'my') {
       this.columnsForDisplay = this.columnsForMyPlayers;
       this.columnsForDisplay.forEach(c => this.displayedColumns.push(c));
       this.displayedColumns.push('add');
       return this.playerService.getTeamPlayers(this.currentCountry);
     }
-    if (type == 'nt'){
+    if (this.type == 'nt'){
       this.columnsForDisplay = this.columnsForNTPlayers;
       this.columnsForDisplay.forEach(c => this.displayedColumns.push(c));
       return this.playerService.getNTPlayers();
     }
-    if (type == 'bulk'){
+    if (this.type == 'bulk'){
       this.columnsForDisplay = this.columnsForNTPlayers;
       this.columnsForDisplay.forEach(c => this.displayedColumns.push(c));
-      return new Observable<Player[]>();
+      console.log("get");
+      return ;
     }
   }
 
@@ -99,6 +132,7 @@ export class PlayersComponent {
           return this.getPlayers();
         }),
         map(data => {
+          console.log("map");
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.resultsLength = data.length;
@@ -106,10 +140,12 @@ export class PlayersComponent {
           return data;
         }),
         catchError(() => {
+          console.log("error");
           this.isLoadingResults = false;
           return new Observable<Player[]>();
         })
       ).subscribe(data => {
+        console.log("subscribe");
         data.forEach(p => {
           for (let skillsKey in p.skills) {
             p[skillsKey]=p.skills[skillsKey];
@@ -176,6 +212,22 @@ export class PlayersComponent {
       this.expandedElement.bio = result;
       this.playerService.addBio(result, this.expandedElement.id);
     });
+  }
+
+  Upload() {
+    let fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+      var data = new Uint8Array(this.arrayBuffer);
+      var arr = new Array();
+      for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      var bstr = arr.join("");
+      var workbook = XLSX.read(bstr, {type:"binary"});
+      var first_sheet_name = workbook.SheetNames[0];
+      var worksheet = workbook.Sheets[first_sheet_name];
+      console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
+    };
+    fileReader.readAsArrayBuffer(this.file);
   }
 }
 
