@@ -19,6 +19,10 @@ export class PlayerService {
     return this.http.put(Config.baseUrl + this.url + '/add/' + playerId, null, true);
   }
 
+  deletePlayer(playerId: string) {
+    return this.http.delete(Config.baseUrl + this.url + '/delete/' + playerId, true);
+  }
+
   getNTPlayers() {
     return this.http.get<Player[]>(Config.baseUrl + this.url + '/get', true);
   }

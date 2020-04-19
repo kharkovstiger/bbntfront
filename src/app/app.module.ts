@@ -17,11 +17,12 @@ import {
 } from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {ProfileComponent} from "./components/profile";
+import {ConfirmationDialog} from './components/dialog/confirmation/confirmation.dialog';
 
 @NgModule({
   declarations: [
     AppComponent, CountriesComponent, HomeComponent, MainComponent, ProfileComponent, PlayersComponent, DialogOverviewExampleDialog,
-    ChatComponent
+    ChatComponent, ConfirmationDialog
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,7 @@ import {ProfileComponent} from "./components/profile";
   providers: [],
   bootstrap: [AppComponent, DialogOverviewExampleDialog],
   entryComponents: [
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog, ConfirmationDialog
   ]
 })
 export class AppModule { }

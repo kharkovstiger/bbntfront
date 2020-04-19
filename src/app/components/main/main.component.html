@@ -1,2 +1,4 @@
-<div class="center bold">Post from {{currentCountry}} NT managers</div>
+<div *ngIf="currentUser!=null">
+  <div class="center">Post from {{currentCountry}} NT managers</div>
+</div>
 

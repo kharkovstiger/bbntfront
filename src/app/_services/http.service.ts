@@ -38,4 +38,12 @@ export class HttpService {
     }
     return this.http.put<T>(url, data, {headers: headers});
   }
+
+  delete<T>(url: string,auth: boolean) {
+    let headers = new HttpHeaders();
+    if (auth) {
+      headers=this.createAuthorizationHeader(headers);
+    }
+    return this.http.delete<T>(url, {headers: headers});
+  }
 }

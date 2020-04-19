@@ -7,6 +7,7 @@ import {merge, Observable, Subscription} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import * as XLSX from 'ts-xlsx';
+import {ConfirmationDialog} from '../dialog/confirmation/confirmation.dialog';
 
 @Component({
   templateUrl: 'players.component.html',
@@ -228,6 +229,18 @@ export class PlayersComponent {
       console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
     };
     fileReader.readAsArrayBuffer(this.file);
+  }
+
+  remove(playerId: string) {
+    const dialogRef = this.dialog.open(ConfirmationDialog, {
+      width: '350px',
+      data: "Are you sure you want to remove this player from DB?"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.playerService.deletePlayer(playerId).subscribe(r => this.initTable());
+      }
+    });
   }
 }
 
