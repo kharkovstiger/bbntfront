@@ -36,4 +36,8 @@ export class AppComponent {
   updateNTSquad(){
     this.playerService.updateNTSquad();
   }
+
+  addPostPopup() {
+
+  }
 }

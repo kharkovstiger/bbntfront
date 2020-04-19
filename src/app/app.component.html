@@ -30,6 +30,9 @@
       <a mat-list-item *ngIf="currentUser!=null && currentUser.roleCountry!=null" (click)="updateNTSquad()">
         <span class="sidenav-item">Update NT squad</span>
       </a>
+      <a mat-list-item *ngIf="currentUser!=null && currentUser.roleCountry!=null" (click)="addPostPopup()">
+        <span class="sidenav-item">Add New Post</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav opened mode="side" class="bg-dark" position="end">
